@@ -2,6 +2,7 @@ const express = require('express')
 const { port } = require('config')
 const storage = require('node-persist')
 const uniqid = require('uniqid')
+const bcrypt = require('bcryptjs')
 
 const router_init = require('./initializers/route.init')
 
@@ -10,19 +11,28 @@ const app = express()
 const start = async () => {
 
     await storage.init()
-    // await storage.clear()
 
-    if ( !await storage.getItem('users') ) await storage.setItem('users', [{ 
-        username: 'admin',
-        password: 'admin',
-        isAdmin: true,
-        id: uniqid()
-     }])
+    if ( !await storage.getItem('users') ){
+
+        let admin = {
+            username: 'admin',
+            password: 'admin',
+            isAdmin: true,
+            id: uniqid()
+        }
+
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(admin.password, salt, async (err, hash) => {
+                if (err) throw err
+                admin.password = hash
+
+                await storage.setItem('users', [admin])
+            })
+        })   
+
+
+    } 
     if ( !await storage.getItem('todos') ) await storage.setItem('todos', [])
-
-    // await storage.setItem('users', [{ username: 'Nikk' }])
-    // console.log(await storage.getItem('users'))
-    // await storage.setItem('currentUser', null)
 
     app.use(express.json())
 

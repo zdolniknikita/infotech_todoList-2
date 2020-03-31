@@ -3,7 +3,8 @@ const addTodoQuestions = [
         type: 'input',
         name: 'title',
         message: 'Add new todo'
-    }
+    },
+
 ]
 
 const deleteTodoQuestions = [
@@ -26,8 +27,9 @@ const updateTodoQuestions = [
         message: `Enter new todo's title`
     },
     {
-        type: 'input',
+        type: 'checkbox',
         name: 'isdone',
+        choices: ['true', 'false'],
         message: `Todo is done? (true / false)`
     }
 ]
@@ -41,7 +43,7 @@ const authQuestions = [
         message: 'Enter the username'
     },
     {
-        type: 'input',
+        type: 'password',
         name: 'password',
         message: 'Enter the password'
     }

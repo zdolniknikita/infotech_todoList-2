@@ -2,7 +2,6 @@
 
 const program = require('commander')
 const { prompt } = require('inquirer')
-const storage = require('node-persist') // удалить потом
 
 const { addTodoQuestions, authQuestions, deleteTodoQuestions, updateTodoQuestions } = require('../constans')
 const { addTodo, deleteTodo, getAllTodos, updateTodo } = require('../actions/todo_actions')
@@ -56,13 +55,5 @@ program
     .description('Get all your todos')
     .action(getAllTodos)
 
-program // удалить потом
-    .command('clear')
-    .description('Clear storage')
-    .action(async () => { 
-        await storage.init()
-        await storage.clear()
-        console.log('Storage has been cleared') 
-    })
 
 program.parse(process.argv)

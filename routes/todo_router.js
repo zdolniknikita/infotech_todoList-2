@@ -15,8 +15,6 @@ router.post('/add', auth, async (req, res) => {
 
     let currentUser = await storage.getItem('currentUser')
     
-    console.log('todo CurrentUSer = ', currentUser)
-    
     let todo = {
         title,
         id,
@@ -25,11 +23,9 @@ router.post('/add', auth, async (req, res) => {
     }
 
     let todos = await storage.getItem('todos')
-    console.log('todos = ', todos)
         todos.push(todo)
 
     await storage.setItem('todos', todos)
-    console.log(await storage.getItem('todos'))
 
     return await res.send({ msg: 'Todo has been added' })
 
@@ -43,7 +39,6 @@ router.post('/delete', auth, async (req, res) => {
     let findTodo = null
 
         userTodos = todos.filter( todo => todo.user === currentUser.id )
-        console.log('filter todo', userTodos)
 
     if ( currentUser.isAdmin ) findTodo = todos.find( todo => todo.id === id )
     else findTodo = userTodos.find( todo => todo.id === id )
@@ -79,14 +74,17 @@ router.post('/update', auth, async (req, res) => {
     })
 
     if ( todoIndex !== -1 ) {
+
         if ( title ) todos[todoIndex].title = title
-        todos[todoIndex].isdone = isdone === 'true' ? true : false
+
+        todos[todoIndex].isdone = isdone[0] === 'true' ? true : false
         await storage.setItem('todos', todos)
+
         return res.status(200).json({ msg: 'Todo has been updated' })
     } else {
+        
         return res.status(200).json({ msg: `Todo with id = ${id} not found` })
     }
-
 })
 
 module.exports = router
