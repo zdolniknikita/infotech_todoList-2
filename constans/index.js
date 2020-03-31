@@ -24,6 +24,11 @@ const updateTodoQuestions = [
         type: 'input',
         name: 'title',
         message: `Enter new todo's title`
+    },
+    {
+        type: 'input',
+        name: 'isdone',
+        message: `Todo is done? (true / false)`
     }
 ]
 

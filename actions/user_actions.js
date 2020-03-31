@@ -1,5 +1,4 @@
 const storage = require('node-persist')
-const uniqid = require('uniqid')
 const axios = require('../helpers/axios')
 
 const login = async user => {
@@ -12,7 +11,6 @@ const login = async user => {
     axios.post('/user/login', { user })
         .then(res => console.log(res.data.msg))
         .catch(err => console.log(err.response.data.msg))
-
 
 }
 

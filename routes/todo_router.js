@@ -20,6 +20,7 @@ router.post('/add', auth, async (req, res) => {
     let todo = {
         title,
         id,
+        isdone: false,
         user: currentUser.id
     }
 
@@ -64,7 +65,7 @@ router.get('/', auth, async (req, res) => {
 
 router.post('/update', auth, async (req, res) => {
 
-    const { id, title } = req.body.todo
+    const { id, title, isdone } = req.body.todo
 
     let currentUser = await storage.getItem('currentUser')
     let todos = await storage.getItem('todos')
@@ -72,13 +73,13 @@ router.post('/update', auth, async (req, res) => {
     let todoIndex = todos.findIndex( todo => todo.user === currentUser.id && todo.id === id  )
 
     if ( todoIndex !== -1 ) {
-        todos[todoIndex].title = title
+        if ( title ) todos[todoIndex].title = title
+        todos[todoIndex].isdone = isdone === 'true' ? true : false
         await storage.setItem('todos', todos)
         return res.status(200).json({ msg: 'Todo has been updated' })
     } else {
         return res.status(200).json({ msg: `Todo with id = ${id} not found` })
     }
-
 
 })
 
