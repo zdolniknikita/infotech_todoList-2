@@ -40,11 +40,13 @@ router.post('/delete', auth, async (req, res) => {
     const { id } = req.body.id
     let todos = await storage.getItem('todos')
     let currentUser = await storage.getItem('currentUser')
+    let findTodo = null
 
         userTodos = todos.filter( todo => todo.user === currentUser.id )
         console.log('filter todo', userTodos)
 
-    let findTodo = userTodos.find( todo => todo.id === id )
+    if ( currentUser.isAdmin ) findTodo = todos.find( todo => todo.id === id )
+    else findTodo = userTodos.find( todo => todo.id === id )
 
     if ( !findTodo ) return res.status(200).json({ msg: `Todo with id = ${id} not found` })
 
@@ -58,9 +60,8 @@ router.get('/', auth, async (req, res) => {
     let currentUser = await storage.getItem('currentUser')
     let todos = await storage.getItem('todos')
 
-        todos = todos.filter( todo => todo.user === currentUser.id )
-
-        return res.status(200).json({ msg: todos })
+    if ( !currentUser.isAdmin ) todos = todos.filter( todo => todo.user === currentUser.id )
+    return res.status(200).json({ msg: todos })
 })
 
 router.post('/update', auth, async (req, res) => {
@@ -70,7 +71,12 @@ router.post('/update', auth, async (req, res) => {
     let currentUser = await storage.getItem('currentUser')
     let todos = await storage.getItem('todos')
 
-    let todoIndex = todos.findIndex( todo => todo.user === currentUser.id && todo.id === id  )
+    let todoIndex = todos.findIndex( todo => {
+
+        if ( currentUser.isAdmin ) return todo.id === id
+        else return todo.user === currentUser.id && todo.id === id
+          
+    })
 
     if ( todoIndex !== -1 ) {
         if ( title ) todos[todoIndex].title = title

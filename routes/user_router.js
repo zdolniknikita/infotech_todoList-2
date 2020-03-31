@@ -27,10 +27,10 @@ router.post('/user/register', async (req, res) => {
    
     const { username, password } = req.body.user
 
+    await storage.init()
     let currentUser = await storage.getItem('currentUser')
 
     if ( currentUser ) return res.status(401).json({ msg: 'Please logout first' })
-    // await storage.init()
     let users = await storage.getItem('users')
 
     let findUser = users.find(user => user.username === username)
@@ -39,6 +39,7 @@ router.post('/user/register', async (req, res) => {
             let newUser = {
                 username: username,
                 password: password,
+                isAdmin: false,
                 id: uniqid()
             }
             console.log('users = ', users)
