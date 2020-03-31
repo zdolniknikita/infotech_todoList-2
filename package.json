@@ -1,0 +1,29 @@
+{
+  "name": "infotech_todolist-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zdolniknikita/infotech_todoList-2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zdolniknikita/infotech_todoList-2/issues"
+  },
+  "homepage": "https://github.com/zdolniknikita/infotech_todoList-2#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "commander": "^5.0.0",
+    "config": "^3.3.1",
+    "express": "^4.17.1",
+    "inquirer": "^7.1.0",
+    "node-persist": "^3.0.5",
+    "nodemon": "^2.0.2",
+    "uniqid": "^5.2.0"
+  }
+}
