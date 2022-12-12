@@ -23,7 +23,7 @@
     "bcryptjs": "^2.4.3",
     "commander": "^5.0.0",
     "config": "^3.3.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "inquirer": "^7.1.0",
     "link": "^0.1.5",
     "node-persist": "^3.0.5",
